@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Fund</title>
+    
+        <link rel="stylesheet" href="smart.css">
+    
+    
+    <style>
+        /* Reset default margin & padding */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        /* Header Styling */
+        
+  </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header class="header">
+        <div class="logo"><img src="logo.jpeg" class="logoimage"/></div>
+        <nav class="nav">
+            <a href="#">Home</a>
+            <a href="#">Loans</a>
+            <a href="#">Lenders</a>
+            <a href="#">Contact</a>
+            <a onclick="toggleForm('register-form')">Register</a>
+            <a onclick="toggleForm('login-form')">Login</a>
+
+            <!-- Register Form -->
+            <div class="dropdown-form" id="register-form">
+                <form id="register-form" onsubmit="registerUser(event)">
+                    <h3>Register</h3>
+                    <input type="text" id="fullName" placeholder="Full Name" required>
+                    <input type="tel" id="phoneNumber" placeholder="Phone Number" required>
+                    <input type="password" id="password" placeholder="Password" required>
+                    <button type="submit">Register</button>
+                </form>
+            </div>
+
+            <!-- Login Form -->
+            <div class="dropdown-form" id="login-form">
+                <h3>Login</h3>
+                <input type="tel" placeholder="Phone Number" required>
+                <input type="password" placeholder="Password" required>
+                <button type="submit">Login</button>
+            </div>
+        </nav>
+    </header>
+    <div class="carousel">
+        <div class="slides">
+            <div class="slide" style="background-image: url('carouselbg-1.jpeg');">
+                <h1 class="bghead">$mart Loans $marter bussiness</h1>
+            </div>
+            <div class="slide" style="background-image: url('carouselbg-2.jpeg');">
+                <h1 class="bghead">Connecting borrowers and lenders seamlessly—because the right match makes all the difference.</h1>
+            </div>
+            <div class="slide" style="background-image: url('image3.jpg');"></div>
+        </div>
+        <button class="prev" onclick="moveSlide(-1)">&#10094;</button>
+        <button class="next" onclick="moveSlide(1)">&#10095;</button>
+    </div>
+    <h1 class="heading">Unlock smarter borrowing with our peer-to-peer loan platform—where you connect directly with lenders and get AI-powered business suggestions from our smart chatbot, ensuring the best financial decisions!</h1>
+    <!-- Action Buttons Section -->
+<div style="text-align: center; margin: 20px 0;">
+    <button onclick="handleLend()" style="padding: 10px 20px; margin: 10px; background-color:green; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; transition: 0.3s;">
+        I Want to Lend Money
+    </button>
+    <button onclick="handleBorrow()" style="padding: 10px 20px; margin: 10px; background-color: #f4b400; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; transition: 0.3s;">
+        I Want to Borrow Money
+    </button>
+</div>
+    <div class="chatbot-icon" onclick="toggleChat()">
+        💬
+    </div>
+    
+    <!-- Chatbot Popup -->
+    <div class="chatbot-popup hidden" id="chatbot">
+        <div class="chatbot-header">
+            <span>Chatbot</span>
+            <button class="close-btn" onclick="toggleChat()">✖</button>
+        </div>
+        <div class="chatbot-messages">
+            <p>Hi! How can I help you today?</p>
+        </div>
+        <input type="text" class="chatbot-input" placeholder="Type your message...">
+    </div>
+    <div class="card-container">
+        <div class="card">
+            <h2 class="card-heading">Eligibility</h2>
+            <p class="card-text">To use this service, you must:</p>
+            <ul class="card-text">
+                <li>Be at least 20 years old.</li>
+                <li>Be a resident of India.</li>
+                <li>Provide accurate and truthful information.</li>
+            </ul>
+        </div>
+        <div class="card">
+            <h2 class="card-heading">Loan Application & Approval</h2>
+            <p class="card-text">All loans are subject to credit checks and approval. Loan amount, interest rates, and repayment terms will be displayed before acceptance. We reserve the right to reject applications without explanation.</p>
+        </div>
+        <div class="card">
+            <h2 class="card-heading">Interest Rates & Fees</h2>
+            <p class="card-text">Interest rates vary based on loan type and approval criteria. Processing fees, late penalties, and other charges will be disclosed before loan approval.</p>
+        </div>
+        <div class="card">
+            <h2 class="card-heading">Repayment Terms</h2>
+            <p class="card-text">Repayment schedules will be provided before loan disbursement. Late payments may result in penalties or legal action. Early repayment policies are outlined in the loan agreement.</p>
+        </div>
+        <div class="card">
+            <h2 class="card-heading">Privacy & Data Protection</h2>
+            <p class="card-text">We collect and store personal data in compliance with applicable laws. We do not sell or share user data, except as required by law.</p>
+        </div>
+        <div class="card">
+            <h2 class="card-heading">Default & Collections</h2>
+            <p class="card-text">Failure to repay on time may lead to legal action or third-party debt collection. Non-payment may impact your credit score.</p>
+        </div>
+        <div class="card">
+            <h2 class="card-heading">Prohibited Activities</h2>
+            <ul class="card-text">
+                <li>Providing false or misleading information.</li>
+                <li>Using the app for fraudulent or illegal activities.</li>
+                <li>Attempting to manipulate or hack the platform.</li>
+            </ul>
+        </div>
+        <div class="card">
+            <h2 class="card-heading">Dispute Resolution</h2>
+            <p class="card-text">Disputes will be resolved through arbitration or mediation as per [jurisdiction] laws. Users waive the right to sue unless otherwise required by law.</p>
+        </div >
+        <div class="card">
+            <h2 class="card-heading">Termination of Services</h2>
+            <p class="card-text">We may suspend or terminate accounts for violations of these terms. Users remain responsible for outstanding loan obligations.</p>
+        </div>
+    <div class="card-center">
+        <div class="card">
+            <h2 class="card-heading">Changes to Terms</h2>
+            <p class="card-text">We reserve the right to modify these terms at any time. Continued use after updates signifies acceptance of the new terms.</p>
+        </div>
+    
+        <div class="card">
+            <h2 class="card-heading">Contact Us</h2>
+            <p class="card-text">For any inquiries, please contact:</p>
+            <p class="card-text">
+                [Company Name]<br>
+                [Address]<br>
+                [Email]<br>
+                [Phone]
+            </p>
+        </div>
+    
+</div>
+    </div>
+    <script src="smart.js"></script>
+</body>
+</html>

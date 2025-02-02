@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lend Money</title>
+    <style>
+        /* Basic styling for the form */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+        #lend-form-section {
+            padding: 40px;
+            background-color: #f9f9f9;
+        }
+        #lend-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        #lend-form div {
+            margin-bottom: 15px;
+        }
+        #lend-form label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        #lend-form input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        #lend-form button {
+            width: 100%;
+            padding: 10px;
+            background: #2d3e50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        #lend-form button:hover {
+            background: #f4b400;
+        }
+    </style>
+</head>
+<body>
+    <!-- Lend Money Form Section -->
+    <section id="lend-form-section">
+        <h2 style="text-align: center; margin-bottom: 20px;">Lend Money</h2>
+        <form id="lend-form">
+            <div>
+                <label for="lend-amount">Amount You Can Lend</label>
+                <input type="number" id="lend-amount" name="lend-amount" required min="1000" oninput="updateEMI()">
+            </div>
+            <div>
+                <label for="interest-rate">Interest Rate (%)</label>
+                <input type="number" id="interest-rate" name="interest-rate" required min="0" step="0.01" oninput="updateEMI()">
+            </div>
+            <div>
+                <label for="repayment-days">Mandatory Repayment Period (days)</label>
+                <input type="number" id="repayment-days" name="repayment-days" required min="1" oninput="updateEMI()">
+            </div>
+            <div>
+                <label for="emi">Approximate Monthly EMI</label>
+                <input type="number" id="emi" name="emi" readonly>
+            </div>
+            <button type="submit">Submit Offer</button>
+        </form>
+    </section>
+    <script>
+        function updateEMI() {
+            const amount = parseFloat(document.getElementById('lend-amount').value) || 0;
+            const annualRate = parseFloat(document.getElementById('interest-rate').value) || 0;
+            const repaymentDays = parseInt(document.getElementById('repayment-days').value) || 0;
+
+            // Convert days to months (approximate)
+            const months = repaymentDays / 30;
+
+            const monthlyRate = annualRate / 12 / 100; // Monthly interest rate
+
+            if (amount > 0 && annualRate > 0 && months > 0) {
+                const emi = (amount * monthlyRate * Math.pow(1 + monthlyRate, months)) / (Math.pow(1 + monthlyRate, months) - 1);
+                document.getElementById('emi').value = emi.toFixed(2);
+            } else {
+                document.getElementById('emi').value = 0;
+            }
+        }
+
+        document.getElementById('lend-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent form from submitting
+
+            const lendAmount = document.getElementById('lend-amount').value;
+            const interestRate = document.getElementById('interest-rate').value;
+            const repaymentDays = document.getElementById('repayment-days').value;
+            const emi = document.getElementById('emi').value;
+
+            if (lendAmount && interestRate && repaymentDays) {
+                // Retrieve existing offers from localStorage
+                const offers = JSON.parse(localStorage.getItem('lendingOffers')) || [];
+
+                // Add new offer
+                offers.push({ lendAmount, interestRate, repaymentDays, emi });
+
+                // Save back to localStorage
+                localStorage.setItem('lendingOffers', JSON.stringify(offers));
+
+                alert('Lending offer submitted successfully!');
+            } else {
+                alert('Please fill in all fields.');
+            }
+        });
+    </script>
+</body>
+</html>

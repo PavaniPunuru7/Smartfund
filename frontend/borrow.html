@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    </head>
+    <body>
+        <!-- Loan Application Form Section -->
+        <section id="loan-application" style="padding: 40px; background-color: #f9f9f9;">
+            <h2 style="text-align: center; margin-bottom: 20px;">Apply for a Loan</h2>
+            <form id="loan-form" style="max-width: 600px; margin: 0 auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);">
+                
+                <div style="margin-bottom: 15px;">
+                    <label for="loan-amount" style="display: block; margin-bottom: 5px;">Loan Amount</label>
+                    <input type="number" id="loan-amount" name="loan-amount" required min="1000" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                </div>
+                
+                <div style="margin-bottom: 15px;">
+                    <label for="business-type" style="display: block; margin-bottom: 5px;">Type of Business</label>
+                    <input type="text" id="business-type" name="business-type" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                </div>
+                
+                <div style="margin-bottom: 15px;">
+                    <label for="repayment-period" style="display: block; margin-bottom: 5px;">Repayment Period (months)</label>
+                    <input type="number" id="repayment-period" name="repayment-period" required min="1" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                </div>
+                
+                <!-- Aadhar Card Number Input -->
+                <div style="margin-bottom: 15px;">
+                    <label for="aadhar-card-number" style="display: block; margin-bottom: 5px;">Aadhar Card Number</label>
+                    <input type="text" id="aadhar-card-number" name="aadhar-card-number" required pattern="\d{12}" maxlength="12" placeholder="Enter 12-digit Aadhar Number" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                </div>
+                
+                <!-- PAN Card Number Input -->
+                <div style="margin-bottom: 15px;">
+                    <label for="pan-card-number" style="display: block; margin-bottom: 5px;">PAN Card Number</label>
+                    <input type="text" id="pan-card-number" name="pan-card-number" required pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}" maxlength="10" placeholder="Enter 10-character PAN Number" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; text-transform: uppercase;">
+                </div>
+
+                <!-- OTP Field -->
+                <div style="margin-bottom: 15px;">
+                    <label for="otp" style="display: block; margin-bottom: 5px;">OTP (Enter the OTP sent to your mobile)</label>
+                    <input type="text" id="otp" name="otp" required pattern="\d{6}" maxlength="6" placeholder="Enter 6-digit OTP" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                </div>
+                
+                <button type="submit" style="width: 100%; padding: 10px; background: #2d3e50; color: white; border: none; border-radius: 5px; cursor: pointer; transition: 0.3s;">Submit Application</button>
+            </form>
+        </section>
+    </body>
+
+    <script>
+        document.getElementById('loan-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent form from submitting
+
+            // Fetch input values
+            const loanAmount = document.getElementById('loan-amount').value;
+            const businessType = document.getElementById('business-type').value;
+            const repaymentPeriod = document.getElementById('repayment-period').value;
+            const aadharCardNumber = document.getElementById('aadhar-card-number').value;
+            const panCardNumber = document.getElementById('pan-card-number').value;
+            const otp = document.getElementById('otp').value;
+
+            // Validate Aadhar (12-digit number)
+            if (!/^\d{12}$/.test(aadharCardNumber)) {
+                alert("Invalid Aadhar Card Number! It must be a 12-digit number.");
+                return;
+            }
+
+            // Validate PAN (5 letters, 4 numbers, 1 letter)
+            if (!/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(panCardNumber)) {
+                alert("Invalid PAN Card Number! It must be in the format ABCDE1234F.");
+                return;
+            }
+
+            // Validate OTP (6-digit number)
+            if (!/^\d{6}$/.test(otp)) {
+                alert("Invalid OTP! It must be a 6-digit number.");
+                return;
+            }
+
+            if (loanAmount && businessType && repaymentPeriod && aadharCardNumber && panCardNumber && otp) {
+                alert('Loan application submitted successfully!');
+                // Here, you can add code to send the form data to your backend
+            } else {
+                alert('Please fill in all fields correctly.');
+            }
+        });
+    </script>
+</html>

@@ -16,8 +16,8 @@ app.use(bodyParser.json());
 app.use("/api/users", require("./routes/userRoutes"));
 app.use("/api/lend",require("./routes/lendMoneyRoutes"));
 app.use("/api/borrow",require("./routes/borrowMoneyRoutes"));
+app.use("/api/gemini", require("./routes/gemini_inte"))
 
 
-
-const PORT = process.env.PORT || 6000;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

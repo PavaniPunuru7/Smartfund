@@ -51,26 +51,7 @@ window.location.href = 'lend.html'; // Redirect to lend.html
 function handleBorrow() {
 window.location.href = 'borrow.html'; // Redirect to borrow.html
 }
-async function registerUser(event) {
-event.preventDefault();
-const fullName = document.getElementById('fullName').value;
-const phoneNumber = document.getElementById('phoneNumber').value;
-const password = document.getElementById('password').value;
 
-const response = await fetch('http://localhost:5000/register', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ fullName, phoneNumber, password })
-});
-
-if (response.ok) {
-    alert('User registered successfully');
-} else {
-    alert('Error registering user');
-}
-}
 let currentSlide = 0;
 const slides = document.querySelector('.slides');
 const totalSlides = document.querySelectorAll('.slide').length;
@@ -96,3 +77,4 @@ slides.style.transform = `translateX(-${currentSlide * 100}%)`;
 setInterval(() => {
 moveSlide(1);
 }, 1000); // 3000 milliseconds = 3 seconds
+

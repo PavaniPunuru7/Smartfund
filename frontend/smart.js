@@ -30,10 +30,17 @@ document.addEventListener("click", function(event) {
         loginForm.style.display = 'none';
     }
 });
+/*
 function toggleChat() {
 const chatPopup = document.getElementById("chatbot");
 chatPopup.style.display = (chatPopup.style.display === "block") ? "none" : "block";
 }
+*/
+function toggleChat() {
+    var chatbot = document.getElementById("chatbot");
+    chatbot.classList.toggle("active");
+}
+
 // Default: Show the register form first
 function handleLend() {
 alert("Redirecting to the Lender's section...");
@@ -55,7 +62,7 @@ window.location.href = 'borrow.html'; // Redirect to borrow.html
 let currentSlide = 0;
 const slides = document.querySelector('.slides');
 const totalSlides = document.querySelectorAll('.slide').length;
-
+/*
 function moveSlide(direction) {
 currentSlide += direction;
 
@@ -71,7 +78,27 @@ if (currentSlide < 0) {
 
 // Update the transform property to show the current slide
 slides.style.transform = `translateX(-${currentSlide * 100}%)`;
+} */
+let currentIndex = 0;
+
+function moveSlide(direction) {
+    const slides = document.querySelector(".slides");
+    const totalSlides = document.querySelectorAll(".slide").length;
+
+    currentIndex += direction;
+
+    if (currentIndex >= totalSlides) {
+        currentIndex = 0;
+    } else if (currentIndex < 0) {
+        currentIndex = totalSlides - 1;
+    }
+
+    slides.style.transform = `translateX(-${currentIndex * 100}%)`;
 }
+
+// Auto-slide every 3 seconds
+setInterval(() => moveSlide(1), 3000);
+
 
 // Automatically move to the next slide every 3 seconds
 setInterval(() => {

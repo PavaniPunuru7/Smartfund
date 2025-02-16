@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Fund</title>
+    
+        <link rel="stylesheet" href="smart.css">
+    
+    
+    <style>
+        /* Reset default margin & padding */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        /* Header Styling */
+        
+  </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header class="header">
+        <div class="logo"><img src="logo.jpeg" class="logoimage"/></div>
+        <nav class="nav">
+            <a href="#">Home</a>
+            <a href="#">Loans</a>
+            <a href="#">Lenders</a>
+            <a href="#">Contact</a>
+            <a onclick="toggleForm('register-form')">Register</a>
+            <a onclick="toggleForm('login-form')">Login</a>
+
+            <!-- Register Form -->
+            <div class="dropdown-form" id="register-form">
+                <form id="register-form" onsubmit="registerUser(event)">
+                    <h3>Register</h3>
+                    <input type="text" id="fullName" placeholder="Full Name" required>
+                    <input type="tel" id="phoneNumber" placeholder="Phone Number" required>
+                    <input type="password" id="password" placeholder="Password" required>
+                    <button type="submit">Register</button>
+                </form>
+            </div>
+
+            <!-- Login Form -->
+            <!-- Login Form -->
+            <div class="dropdown-form" id="login-form">
+                <form id="login-form" onsubmit="loginUser(event)">
+                    <h3>Login</h3>
+                    <input type="tel" id="loginPhoneNumber" placeholder="Phone Number" required>
+                    <input type="password" id="loginPassword" placeholder="Password" required>
+                    <button type="submit">Login</button>
+                </form>
+            </div>
+
+        </nav>
+    </header>
+    <div class="carousel">
+        <div class="slides">
+            <div class="slide" style="background-image: url('carouselbg-1.jpeg');">
+                <h1 class="bghead">$mart Loans $marter bussiness</h1>
+            </div>
+            <div class="slide" style="background-image: url('carouselbg-2.jpeg');">
+                <h1 class="bghead">Connecting borrowers and lenders seamlessly—because the right match makes all the difference.</h1>
+            </div>
+            <div class="slide" style="background-image: url('image3.jpg');"></div>
+        </div>
+        <button class="prev" onclick="moveSlide(-1)">&#10094;</button>
+        <button class="next" onclick="moveSlide(1)">&#10095;</button>
+    </div>
+    <h1 class="heading">Unlock smarter borrowing with our peer-to-peer loan platform—where you connect directly with lenders and get AI-powered business suggestions from our smart chatbot, ensuring the best financial decisions!</h1>
+    <!-- Action Buttons Section -->
+<div style="text-align: center; margin: 20px 0;">
+    <button onclick="handleLend()" style="padding: 10px 20px; margin: 10px; background-color:green; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; transition: 0.3s;">
+        I Want to Lend Money
+    </button>
+    <button onclick="handleBorrow()" style="padding: 10px 20px; margin: 10px; background-color: #f4b400; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; transition: 0.3s;">
+        I Want to Borrow Money
+    </button>
+</div>
+    <div class="chatbot-icon" onclick="toggleChat()">
+        💬
+    </div>
+    
+    <!-- Chatbot Popup -->
+    <div class="chatbot-popup hidden" id="chatbot">
+        <div class="chatbot-header">
+            <span>Chatbot</span>
+            <button class="close-btn" onclick="toggleChat()">✖</button>
+        </div>
+        <div class="chatbot-messages" id="chat-messages">
+            <p>Hi! How can I help you today?</p>
+        </div>
+        <div class="chatbot-input-container">
+            <input type="text" id="chatbot-input" class="chatbot-input" placeholder="Type your message...">
+            <button id="voice-btn" class="voice-btn">🎤</button>
+            <button id="send-btn" class="send-btn">➤</button>
+        </div>
+    </div>
+    
+    <style>
+        .chatbot-input-container {
+            display: flex;
+            gap: 5px;
+            padding: 10px;
+        }
+    
+        .chatbot-input {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+    
+        .send-btn,.voice-btn {
+            padding: 8px 12px;
+            background-color: #2d3e50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+    
+        .send-btn:hover,.voice-btn:hover {
+            background-color: #1a2533;
+        }
+    </style>
+    
+    <script>
+    document.getElementById("send-btn").addEventListener("click", sendMessage);
+    document.getElementById("chatbot-input").addEventListener("keypress", function(event) {
+        if (event.key === "Enter") {
+            sendMessage();
+        }
+    });
+    document.getElementById("voice-btn").addEventListener("click", function() {
+    let recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+    recognition.lang = "en-US";
+
+    recognition.onstart = function() {
+        document.getElementById("voice-btn").innerText = "🎙️"; // Indicate recording
+    };
+
+    recognition.onresult = function(event) {
+        let transcript = event.results[0][0].transcript;
+        document.getElementById("chatbot-input").value = transcript;
+        sendMessage(); // Auto-send message after voice input
+    };
+
+    recognition.onerror = function() {
+        alert("Could not recognize speech. Please try again.");
+    };
+
+    recognition.onend = function() {
+        document.getElementById("voice-btn").innerText = "🎤"; // Reset icon
+    };
+
+    recognition.start();
+});
+
+    async function sendMessage() {
+        const inputField = document.getElementById("chatbot-input");
+        const userMessage = inputField.value.trim();
+        if (!userMessage) return;
+    
+        // Display user's message
+        const chatMessages = document.getElementById("chat-messages");
+        chatMessages.innerHTML += `<p><strong>You:</strong> ${userMessage}</p>`;
+        inputField.value = "";
+    
+        try {
+            const response = await fetch("http://localhost:5000/api/chatbot", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ prompt: userMessage })
+            });
+    
+            const data = await response.json();
+            chatMessages.innerHTML += `<p><strong>AI:</strong> ${data.message}</p>`;
+        } catch (error) {
+            chatMessages.innerHTML += `<p><strong>AI:</strong> Error connecting to AI.</p>`;
+        }
+    
+        chatMessages.scrollTop = chatMessages.scrollHeight; // Auto-scroll to latest message
+    }
+    </script>
+    
+    <div class="card-container">
+        <div class="card">
+            <h2 class="card-heading">Eligibility</h2>
+            <p class="card-text">To use this service, you must:</p>
+            <ul class="card-text">
+                <li>Be at least 20 years old.</li>
+                <li>Be a resident of India.</li>
+                <li>Provide accurate and truthful information.</li>
+            </ul>
+        </div>
+        <div class="card">
+            <h2 class="card-heading">Loan Application & Approval</h2>
+            <p class="card-text">All loans are subject to credit checks and approval. Loan amount, interest rates, and repayment terms will be displayed before acceptance. We reserve the right to reject applications without explanation.</p>
+        </div>
+        <div class="card">
+            <h2 class="card-heading">Interest Rates & Fees</h2>
+            <p class="card-text">Interest rates vary based on loan type and approval criteria. Processing fees, late penalties, and other charges will be disclosed before loan approval.</p>
+        </div>
+        <div class="card">
+            <h2 class="card-heading">Repayment Terms</h2>
+            <p class="card-text">Repayment schedules will be provided before loan disbursement. Late payments may result in penalties or legal action. Early repayment policies are outlined in the loan agreement.</p>
+        </div>
+        <div class="card">
+            <h2 class="card-heading">Privacy & Data Protection</h2>
+            <p class="card-text">We collect and store personal data in compliance with applicable laws. We do not sell or share user data, except as required by law.</p>
+        </div>
+        <div class="card">
+            <h2 class="card-heading">Default & Collections</h2>
+            <p class="card-text">Failure to repay on time may lead to legal action or third-party debt collection. Non-payment may impact your credit score.</p>
+        </div>
+        <div class="card">
+            <h2 class="card-heading">Prohibited Activities</h2>
+            <ul class="card-text">
+                <li>Providing false or misleading information.</li>
+                <li>Using the app for fraudulent or illegal activities.</li>
+                <li>Attempting to manipulate or hack the platform.</li>
+            </ul>
+        </div>
+        <div class="card">
+            <h2 class="card-heading">Dispute Resolution</h2>
+            <p class="card-text">Disputes will be resolved through arbitration or mediation as per [jurisdiction] laws. Users waive the right to sue unless otherwise required by law.</p>
+        </div >
+        <div class="card">
+            <h2 class="card-heading">Termination of Services</h2>
+            <p class="card-text">We may suspend or terminate accounts for violations of these terms. Users remain responsible for outstanding loan obligations.</p>
+        </div>
+    <div class="card-center">
+        <div class="card">
+            <h2 class="card-heading">Changes to Terms</h2>
+            <p class="card-text">We reserve the right to modify these terms at any time. Continued use after updates signifies acceptance of the new terms.</p>
+        </div>
+    
+        <div class="card">
+            <h2 class="card-heading">Contact Us</h2>
+            <p class="card-text">For any inquiries, please contact:</p>
+            <p class="card-text">
+                [Company Name]<br>
+                [Address]<br>
+                [Email]<br>
+                [Phone]
+            </p>
+        </div>
+    
+</div>
+    </div>
+    <script src="smart.js"></script>
+</body>
+</html>
